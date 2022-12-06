@@ -1,10 +1,11 @@
 var fs = require('fs');
 let totalArea = [];
+let totalCount = 0;
 
-fs.readFile('test.txt', 'utf8', function(err, data){
+fs.readFile('input.txt', 'utf8', function(err, data){
     
     pairAreas = data.split('\n');
-    for (var i = 0; i < pairAreas.length; i++){
+    for (var i = 0; i < (pairAreas.length -1); i++){
 
         var pair = pairAreas[i].split(",")
 
@@ -12,11 +13,28 @@ fs.readFile('test.txt', 'utf8', function(err, data){
         area2 = pair[1]
 
         divideRange(area1)
+        totalArea1 = totalArea.toString();
+
         divideRange(area2)
+        totalArea2 = totalArea.toString();
+
+        if(checkIfContains(totalArea1, totalArea2)){
+            totalCount +=1;
+            if(i > 660){
+            console.log("contains")
+        }else{
+            console.log("index" + i)
+            console.log(totalArea1)
+            console.log("-")
+            console.log(totalArea2)
+            console.log("  ")
+        }
+        }
 
         // findItemMatch(item1, item2)
     }
     // prioritizeItems(common_char)
+    console.log(totalCount)
 })
 
 function divideRange(area){
@@ -27,7 +45,6 @@ function divideRange(area){
 
     expandArea(lowerLimit, upperLimit)
 
-    console.log(totalArea)
 }
 
 function expandArea(lowerLimit, upperLimit){
@@ -40,6 +57,9 @@ function expandArea(lowerLimit, upperLimit){
 }
 
 function checkIfContains(totalArea1, totalArea2){
+    if (totalArea1.includes(totalArea2) || totalArea2.includes(totalArea1)){
+        return true;
+    }
     
 }
 
