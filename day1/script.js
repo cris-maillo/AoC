@@ -21,7 +21,6 @@ function addCalories(lines){
   }} 
 
   elves.push(calorieCount);
-
   findLargest(elves);
   findThree(elves, largest);
 }
@@ -36,16 +35,15 @@ function findLargest(elves){
   }
   elves.splice(largestIndex, 1);
 
-  largestHere = largest
   
-  return largestHere
+  
+  return largest;
 }
 
 function findThree(elves, largest){
   totalLargest += largest;
   for (var i = 0; i < 2; i++){
-    findLargest(elves)
-    totalLargest += largestHere;
+    totalLargest += findLargest(elves);
     
   }
   console.log(totalLargest)
