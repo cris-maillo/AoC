@@ -2,35 +2,21 @@ var fs = require('fs');
 
 fs.readFile('input.txt', 'utf8', function(err, data){
 
-    pairAreas = data.split('\n');
+    assignmentPairs = data.split('\n');
 
     let totalCount = 0;
 
-    for (var i = 0; i < pairAreas.length; i++){
+    assignmentPairs.forEach(assignmentPair => {
+        var areaPair = assignmentPair.split(",")
 
-        var pair = pairAreas[i].split(",")
-
-        area1 = pair[0]
-        area2 = pair[1]
-
-        var totalArea1 = expandRange(area1).toString();
-        var totalArea2 = expandRange(area2).toString();
+        var expandedArea1 = expandRange(areaPair[0]).toString();
+        var expandedArea2 = expandRange(areaPair[1]).toString();
 
 
-        if(checkIfContains(totalArea1, totalArea2)){
-
+        if(checkIfContains(expandedArea1, expandedArea2)){
             totalCount +=1;
-
-            if( i == 23 || i == 700 || i == 795 || i == 812){
-                console.log({
-                    i,
-                    contains: true,
-                    totalArea1,
-                    totalArea2,
-                })
-            }
         }
-        }
+    });
 
     console.log(totalCount)
 })
