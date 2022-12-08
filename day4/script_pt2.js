@@ -1,59 +1,51 @@
 var fs = require('fs');
-const { stringify } = require('querystring');
-var item1, item2,item3;
-var common_char = [];
-let groups = []
-let totalPriority = 0;
 
 fs.readFile('input.txt', 'utf8', function(err, data){
-    
-    rucksacks = data.split('\n');
-    numGrups = rucksacks.length / 3;
-    for (var i = 0; i < rucksacks.length; i+= 3){
 
-        item1 = rucksacks[i]
-        item2 = rucksacks[i + 1]
-        item3 = rucksacks[i + 2]
-        findItemMatch(item1, item2, item3)
-    }
-    prioritizeItems(common_char)
+    assignmentPairs = data.split('\n');
+
+    let totalCount = 0;
+
+    assignmentPairs.forEach(assignmentPair => {
+        var areaPair = assignmentPair.split(",")
+
+        var expandedArea1 = expandRange(areaPair[0]);
+        var expandedArea2 = expandRange(areaPair[1]);
+
+
+        if(checkIfContains(expandedArea1, expandedArea2)){
+            totalCount +=1;
+        }
+    });
+
+    console.log(totalCount)
 })
 
-function findItemMatch(item1, item2, item3){
+function expandRange(area){
+    var range = area.split("-")
 
-    for (let i=0; i < item1.length; i++){
-        if(item2.includes(item1[i]) & item3.includes(item1[i])){
-            var character = item1[i]
-        }
-    }
-    console.log(character)
-    common_char.push(character)
-}
+    lowerLimit = parseInt(range[0], 10)
+    upperLimit = parseInt(range[1], 10)
 
-function prioritizeItems(common_char){
-    let str = common_char.join("");
-    for (let i=0; i < str.length; i++){
-        let priority = str.charCodeAt(i);
-        if (str[i] == str[i].toLowerCase()){
-            priority = priority - 96;
+    var total = [];
+    for (i = lowerLimit; i < (upperLimit+1); i++){
+        if(i < 9){
+            //a 0 is added because small ranges like [3, 4] could be confused to be included in [43, 44]
+            total.push("0" + i)
         }else{
-            priority = priority - 38;
-        }
-        totalPriority += priority;
-        
+        total.push(i)}
     }
-    console.log(totalPriority)
+    
+    return total;
 }
 
+function checkIfContains(totalArea1, totalArea2){
+    for (let i=0; i < totalArea1.length; i++){
+        if(totalArea2.includes(totalArea1[i])){
+            // console.log(i)
+           return true;
+        }
+    }
 
-
-
-
-// lowcase - 96
-// uppercase -38
-
-// 16 (p), 38 (L), 42 (P), 22 (v), 20 (t), and 19 (s)
-
-// Lowercase item types a through z have priorities 1 through 26.
-// Uppercase item types A through Z have priorities 27 through 52.
+}
 
